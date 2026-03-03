@@ -2,4 +2,5 @@
   <Project Path="CodingWiki_DataAccess/CodingWiki_DataAccess.csproj" />
   <Project Path="CodingWiki_Model/CodingWiki_Model.csproj" />
   <Project Path="CodingWiki_Web/CodingWiki_Web.csproj" />
+  <Project Path="Coding_Wiki_Console/Coding_Wiki_Console.csproj" Id="276c191c-6b18-4e26-b599-67e94d75f41e" />
 </Solution>
