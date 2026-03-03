@@ -1,3 +1,5 @@
 <Solution>
+  <Project Path="CodingWiki_DataAccess/CodingWiki_DataAccess.csproj" />
+  <Project Path="CodingWiki_Model/CodingWiki_Model.csproj" />
   <Project Path="CodingWiki_Web/CodingWiki_Web.csproj" />
 </Solution>
