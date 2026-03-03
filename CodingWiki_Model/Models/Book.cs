@@ -6,9 +6,9 @@ namespace CodingWiki_Model.Models
 {
     public class Book
     {
-        public int IdBook { get; set; }
+        public int BookId { get; set; }
         public string Title { get; set; }
         public string ISBN { get; set; }
-        public double Price { get; set; }
+        public decimal Price { get; set; }
     }
 }
