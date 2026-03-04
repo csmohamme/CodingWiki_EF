@@ -13,5 +13,8 @@ namespace CodingWiki_Model.Models
         [Required]
         public string Name { get; set; }
         public string Location { get; set; }
+
+        // Navigation property
+        public List<Book> Books { get; set; }
     }
 }

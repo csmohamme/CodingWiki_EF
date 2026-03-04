@@ -17,5 +17,14 @@ namespace CodingWiki_Model.Models
         public decimal Price { get; set; }
         [NotMapped]
         public string PriceRange { get; set; }
+
+        // Navigation property
+        public BookDetail BookDetail { get; set; }
+        public List<Author> Authors { get; set; }
+
+        [ForeignKey("Publisher")]
+        public int Publisher_Id { get; set; }
+        public Publisher Publisher { get; set; }
+
     }
 }

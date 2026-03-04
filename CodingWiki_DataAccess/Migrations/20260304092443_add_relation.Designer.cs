@@ -4,6 +4,7 @@ using CodingWiki_DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CodingWiki_DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260304092443_add_relation")]
+    partial class add_relation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,21 +24,6 @@ namespace CodingWiki_DataAccess.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("AuthorBook", b =>
-                {
-                    b.Property<int>("AuthorsAuthor_Id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BooksBookId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AuthorsAuthor_Id", "BooksBookId");
-
-                    b.HasIndex("BooksBookId");
-
-                    b.ToTable("AuthorBook");
-                });
 
             modelBuilder.Entity("CodingWiki_Model.Models.Author", b =>
                 {
@@ -80,16 +68,11 @@ namespace CodingWiki_DataAccess.Migrations
                         .HasPrecision(10, 2)
                         .HasColumnType("decimal(10,2)");
 
-                    b.Property<int>("Publisher_Id")
-                        .HasColumnType("int");
-
                     b.Property<string>("Title")
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
                     b.HasKey("BookId");
-
-                    b.HasIndex("Publisher_Id");
 
                     b.ToTable("Books");
 
@@ -99,7 +82,6 @@ namespace CodingWiki_DataAccess.Migrations
                             BookId = 1,
                             ISBN = "978-0201616224",
                             Price = 42.99m,
-                            Publisher_Id = 1,
                             Title = "The Pragmatic Programmer"
                         },
                         new
@@ -107,7 +89,6 @@ namespace CodingWiki_DataAccess.Migrations
                             BookId = 2,
                             ISBN = "978-0132350884",
                             Price = 37.99m,
-                            Publisher_Id = 2,
                             Title = "Clean Code: A Handbook of Agile Software Craftsmanship"
                         },
                         new
@@ -115,7 +96,6 @@ namespace CodingWiki_DataAccess.Migrations
                             BookId = 3,
                             ISBN = "978-0201633610",
                             Price = 54.99m,
-                            Publisher_Id = 3,
                             Title = "Design Patterns: Elements of Reusable Object-Oriented Software"
                         });
                 });
@@ -183,23 +163,6 @@ namespace CodingWiki_DataAccess.Migrations
                     b.HasKey("Publisher_Id");
 
                     b.ToTable("Publishers");
-
-                    b.HasData(
-                        new
-                        {
-                            Publisher_Id = 1,
-                            Name = "Addison-Wesley Professional"
-                        },
-                        new
-                        {
-                            Publisher_Id = 2,
-                            Name = "Prentice Hall"
-                        },
-                        new
-                        {
-                            Publisher_Id = 3,
-                            Name = "Addison-Wesley Professional"
-                        });
                 });
 
             modelBuilder.Entity("CodingWiki_Model.Models.SubCategory", b =>
@@ -220,32 +183,6 @@ namespace CodingWiki_DataAccess.Migrations
                     b.ToTable("SubCategories");
                 });
 
-            modelBuilder.Entity("AuthorBook", b =>
-                {
-                    b.HasOne("CodingWiki_Model.Models.Author", null)
-                        .WithMany()
-                        .HasForeignKey("AuthorsAuthor_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CodingWiki_Model.Models.Book", null)
-                        .WithMany()
-                        .HasForeignKey("BooksBookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("CodingWiki_Model.Models.Book", b =>
-                {
-                    b.HasOne("CodingWiki_Model.Models.Publisher", "Publisher")
-                        .WithMany("Books")
-                        .HasForeignKey("Publisher_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Publisher");
-                });
-
             modelBuilder.Entity("CodingWiki_Model.Models.BookDetail", b =>
                 {
                     b.HasOne("CodingWiki_Model.Models.Book", "Book")
@@ -260,11 +197,6 @@ namespace CodingWiki_DataAccess.Migrations
             modelBuilder.Entity("CodingWiki_Model.Models.Book", b =>
                 {
                     b.Navigation("BookDetail");
-                });
-
-            modelBuilder.Entity("CodingWiki_Model.Models.Publisher", b =>
-                {
-                    b.Navigation("Books");
                 });
 #pragma warning restore 612, 618
         }

@@ -19,5 +19,8 @@ namespace CodingWiki_Model.Models
         public string Location { get; set; }
         [NotMapped]
         public string FullName { get { return $"{FirstName} {LastName}"; } }
+
+        // Navigation property
+        public List<Book> Books { get; set; }
     }
 }
