@@ -1,5 +1,6 @@
 ﻿using CodingWiki_Model.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,7 +18,7 @@ namespace CodingWiki_DataAccess.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            options.UseSqlServer("Server=CT-ICT004-LAP\\SQLEXPRESS;Database=CodingWiki_DB;Trusted_Connection=True;TrustServerCertificate=True;");
+            options.UseSqlServer("Server=CT-ICT004-LAP\\SQLEXPRESS;Database=CodingWiki_DB;Trusted_Connection=True;TrustServerCertificate=True;").LogTo(Console.WriteLine, new[] { DbLoggerCategory.Database.Command.Name }, LogLevel.Information);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
