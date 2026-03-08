@@ -9,6 +9,10 @@ namespace CodingWiki_DataAccess.Data
 {
     public class ApplicationDbContext : DbContext
     {
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        {
+
+        }
         public DbSet<Book> Books { get; set; }
         public DbSet<Author> Authors { get; set; }
         public DbSet<Publisher> Publishers { get; set; }
@@ -16,14 +20,14 @@ namespace CodingWiki_DataAccess.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<SubCategory> SubCategories { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder options)
-        {
-            options.UseSqlServer("Server=CT-ICT004-LAP\\SQLEXPRESS;Database=CodingWiki_DB;Trusted_Connection=True;TrustServerCertificate=True;").LogTo(Console.WriteLine, new[] { DbLoggerCategory.Database.Command.Name }, LogLevel.Information);
-        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder options)
+        //{
+            //options.UseSqlServer("Server=CT-ICT004-LAP\\SQLEXPRESS;Database=CodingWiki_DB;Trusted_Connection=True;TrustServerCertificate=True;").LogTo(Console.WriteLine, new[] { DbLoggerCategory.Database.Command.Name }, LogLevel.Information);
+        //}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-             modelBuilder.Entity<Book>().Property(u=>u.Price).HasPrecision(10, 2);
+            modelBuilder.Entity<Book>().Property(u => u.Price).HasPrecision(10, 2);
             modelBuilder.Entity<Book>().HasData(
                 new Book
                 {
@@ -67,6 +71,12 @@ namespace CodingWiki_DataAccess.Data
                     Name = "Addison-Wesley Professional"
                 }
             );
+
+            modelBuilder.Entity<Category>().HasData(
+                new Category{ CategoryId = 1,CategoryName = "Programming"},
+                new Category{ CategoryId = 2,CategoryName = "Software Engineering"},
+                new Category{ CategoryId = 3,CategoryName = "Design Patterns" }
+                );
         }
     }
 }
