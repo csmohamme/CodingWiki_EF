@@ -49,8 +49,9 @@ namespace CodingWiki_Web.Controllers
                 }
 
                 await _db.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
-            return RedirectToAction(nameof(Index));
+            return View(author);
         }
 
         public async Task<IActionResult> Delete(int id)
