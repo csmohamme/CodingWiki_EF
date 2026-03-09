@@ -48,9 +48,12 @@
                                 Edit
                             </a>
 
-                            <a class="btn btn-danger text-white" asp-action="Delete" asp-route-Id="@item.CategoryId">
-                                Delete
-                            </a>
+                            <form asp-action="Delete" asp-route-id="@item.CategoryId" method="post" style="display:inline;">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-danger text-white" onclick="return confirm('هل أنت متأكد من الحذف؟');">
+                                    Delete
+                                </button>
+                            </form>
                         </td>
                     </tr>
                 }
