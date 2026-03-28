@@ -39,11 +39,9 @@
                     <label asp-for="BirthDate"></label>
                 </div>
                 <div class="col-8">
-                    <input asp-for="BirthDate"
-                           id="BirthDatePicker"
-                           class="form-control"
-                           placeholder="MM-DD-YYYY"
-                           value="@(Model.BirthDate != default(DateOnly) ? Model.BirthDate.ToString("MM-dd-yyyy") : "")" />
+                    <input type="hidden" asp-for="BirthDate" id="BirthDateHidden" />
+                    <input id="BirthDatePicker" class="form-control" placeholder="DD-MM-YYYY" autocomplete="off"
+                           value="@(Model.BirthDate != default(DateOnly) ? Model.BirthDate.ToString("dd-MM-yyyy") : "")" />
                     <span asp-validation-for="BirthDate" class="text-danger"></span>
                 </div>
             </div>
@@ -79,10 +77,30 @@
     <partial name="_ValidationScriptsPartial" />
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
-        flatpickr("#BirthDatePicker", {
-            dateFormat: "m-d-Y", 
-            maxDate: "12-31-2030",
-            allowInput: true
-        });
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+        <script>
+            flatpickr("#BirthDatePicker", {
+            dateFormat: "d-m-Y", // display format
+            maxDate: "today",
+            allowInput: true,
+            defaultDate: "@(Model.BirthDate != default(DateOnly) ? Model.BirthDate.ToString("yyyy-MM-dd") : "")",
+            onChange: function(selectedDates, dateStr, instance) {
+            if (selectedDates.length > 0) {
+            // Send ISO format to hidden input
+            var isoDate = selectedDates[0].toISOString().split('T')[0];
+            document.getElementById('BirthDateHidden').value = isoDate;
+            }
+            }
+            });
+
+            // In case user typed the date manually
+            document.getElementById('BirthDatePicker').addEventListener('change', function() {
+            var dateParts = this.value.split('-'); // dd-MM-yyyy
+            if (dateParts.length === 3) {
+            var isoDate = dateParts[2] + '-' + dateParts[1] + '-' + dateParts[0]; // yyyy-MM-dd
+            document.getElementById('BirthDateHidden').value = isoDate;
+            }
+            });
+        </script>
     </script>
 }
